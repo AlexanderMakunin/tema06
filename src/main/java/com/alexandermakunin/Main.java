@@ -2,6 +2,7 @@ package com.alexandermakunin;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Jugador futbolista1 = new Jugador("Aitana Bonmatí");
+        System.out.println(futbolista1);
     }
 }
