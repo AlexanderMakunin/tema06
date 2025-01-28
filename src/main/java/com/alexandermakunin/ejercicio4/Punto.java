@@ -32,15 +32,12 @@ public class Punto {
 
     @Override
     public String toString() {
-        return "Punto{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "(" + x +
+                ", " + y +
+                ')';
     }
 
-    /*
-    public static double distancia(Punto x, double y){
-        if (x.getX() < y)
+    public double distancia(Punto punto){
+        return Math.sqrt(Math.pow(punto.getX() - this.x, 2) + Math.pow(punto.getY() - this.y, 2));
     }
-     */
 }
