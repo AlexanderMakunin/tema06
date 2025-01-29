@@ -10,6 +10,10 @@ public class Circunferencia {
         this.punto = punto;
         this.radio = radio;
     }
+    public Circunferencia(double x, double y,double radio) {
+        this.punto = new Punto(x,y);
+        this.radio = radio;
+    }
     public Circunferencia() {
         this.punto = new Punto(0.0,0.0);
         this.radio = 5;

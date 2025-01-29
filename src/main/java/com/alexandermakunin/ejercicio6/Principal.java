@@ -56,11 +56,7 @@ public class Principal {
         System.out.println("Tiene motor? (S/N)");
         char tiene = leer.nextLine().charAt(0);
         boolean motor;
-        if (tiene == 'S'){
-            motor = true;
-        } else {
-            motor = false;
-        }
+        motor = tiene == 'S';
         System.out.println("Indique la fecha de fabricación usando este estandar XX-XX-XXXX");
         String fabricacion = leer.nextLine();
         System.out.println("Indique el precio");
@@ -68,11 +64,11 @@ public class Principal {
         for (int i = 0; i < bicicletas.length-1; i++) {
             if (bicicletas[i] == null) {
                 bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor,fabricacion,precio);
-                System.out.println("Alumno registrado exitosamente.");
+                System.out.println("bicicleta registrado exitosamente.");
                 return;
             }
         }
-        System.out.println("No hay espacio disponible para más alumnos.");
+        System.out.println("No hay espacio disponible para más bicicletas.");
     }
     public static void venderBicicleta() {
         System.out.println("Indique la referencia");
@@ -133,10 +129,10 @@ public class Principal {
             grupo = aleatorio.nextBoolean() ? "DAM" : "DAW";
             telefono = aleatorio.nextInt(100000000, 999999999);
 
-            for (int j = 0; j < alumnos.length; j++) {
-                if (alumnos[j] == null) {
-                    alumnos[j] = new Alumnos(nia, nombre, apellidos, nacimiento, grupo, telefono);
-                    System.out.println(alumnos[j].toString());
+            for (int j = 0; j < bicicletas.length; j++) {
+                if (bicicletas[j] == null) {
+                    bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor,fabricacion,precio);
+                    System.out.println(bicicletas[j].toString());
                     break;
                 }
             }
