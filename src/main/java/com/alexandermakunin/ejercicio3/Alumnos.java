@@ -1,14 +1,14 @@
 package com.alexandermakunin.ejercicio3;
 
 public class Alumnos {
-    private String nia;
+    private int nia;
     private String nombre;
     private String apellidos;
     private String nacimiento;
     private String grupo;
     private int telefono;
 
-    public Alumnos(String nia, String nombre, String apellidos, String nacimiento, String grupo, int telefono) {
+    public Alumnos(int nia, String nombre, String apellidos, String nacimiento, String grupo, int telefono) {
         this.nia = nia;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -18,14 +18,14 @@ public class Alumnos {
     }
 
     public Alumnos() {
-        this ("A1234567M", "NOMBRE", "APELLIDOS", "XX-XX-XXXX", "GRUPO", 11234567);
+        this ("1234567890", "NOMBRE", "APELLIDOS", "XX-XX-XXXX", "GRUPO", 11234567);
     }
 
-    public String getNia() {
+    public int getNia() {
         return nia;
     }
 
-    public void setNia(String nia) {
+    public void setNia(int nia) {
         this.nia = nia;
     }
 

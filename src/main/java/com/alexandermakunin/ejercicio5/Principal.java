@@ -5,7 +5,7 @@ import com.alexandermakunin.ejercicio4.Punto;
 public class Principal {
     public static void main(String[] args) {
         Circunferencia circ1 = new Circunferencia(new Punto(3.2, 4.0), 2.5);
-        Circunferencia circ2 = new Circunferencia(new Punto(.0, 0.0), 3.2);
+        Circunferencia circ2 = new Circunferencia(new Punto(0.0, 0.0), 3.2);
         Circunferencia circ3 = new Circunferencia(new Punto(1.0, 2.0), 4.0);
 
         System.out.println(circ1);

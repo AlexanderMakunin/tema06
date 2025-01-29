@@ -33,9 +33,9 @@ public class Principal {
     }
     public static void nuevoAlumno() {
         System.out.println("Indique el NIA");
-        String NIA = leer.nextLine();
+        int NIA = Integer.parseInt(leer.nextLine());
         for (int i = 0; i < alumnos.length-1; i++) {
-            if (alumnos[i] != null && alumnos[i].getNia().equals(NIA)) {
+            if (alumnos[i] != null && alumnos[i].getNia() == NIA) {
                 System.out.println("El NIA ya está registrado.");
                 return;
             }
@@ -61,9 +61,9 @@ public class Principal {
     }
     public static void bajaAlumno() {
         System.out.println("Indique el NIA");
-        String NIA = leer.nextLine();
+        int NIA = Integer.parseInt(leer.nextLine());
         for (int i = 0; i < alumnos.length-1; i++) {
-            if (alumnos[i] != null && alumnos[i].getNia().equals(NIA)) {
+            if (alumnos[i] != null && alumnos[i].getNia() == NIA) {
                 alumnos[i] = null;
                 break;
             }
@@ -94,7 +94,7 @@ public class Principal {
     public static void pruebas() {
         System.out.println("Cuantos alumnos?");
         int cantidad = Integer.parseInt(leer.nextLine());
-        String nia;
+        int nia;
         String nombre;
         String apellidos;
         String nacimiento;
@@ -102,7 +102,7 @@ public class Principal {
         int telefono;
         Random aleatorio = new Random();
         for (int i = 0; i < cantidad; i++) {
-            nia = "Y" + aleatorio.nextInt(100000000, 999999999);
+            nia = aleatorio.nextInt(100000000, 999999999);
             nombre = aleatorio.nextBoolean() ? "Jose" : "Maria";
             apellidos = aleatorio.nextBoolean() ? "Gomez" : "Perez";
             nacimiento = "01-01-2000";

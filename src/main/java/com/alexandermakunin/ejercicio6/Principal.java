@@ -1,10 +1,5 @@
 package com.alexandermakunin.ejercicio6;
 
-import com.alexandermakunin.ejercicio3.Alumnos;
-
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -89,105 +84,107 @@ public class Principal {
     public static void consultas() {
         int seleccion;
         do {
-            System.out.println("***************");
-            System.out.println("** CONSULTAS **");
-            System.out.println("***************");
-            System.out.println("1. Por grupo …");
-            System.out.println("2. Por edad ...");
-            System.out.println("3. Por nia ...");
-            System.out.println("4. Por apellidos …");
-            System.out.println("--------------------");
-            System.out.println("0. Volver al menú principal");
+            System.out.println("***********************");
+            System.out.println("** CONSULTA BICICLETA **");
+            System.out.println("*********************** ");
+            System.out.println("1.- Consultar por referencia …");
+            System.out.println("2.- Consultar por marca …");
+            System.out.println("3.- Consultar por modelo …");
+            System.out.println("---------------------------------");
+            System.out.println("0.- Volver al menú principal");
 
             seleccion = Integer.parseInt(leer.nextLine());
             switch (seleccion) {
-                case 1 -> grupos();
-                case 2 -> edad();
-                case 3 -> nia();
-                case 4 -> apellidos();
+                case 1 -> id();
+                case 2 -> marca();
+                case 3 -> modelo();
             }
         } while (seleccion != 0);
     }
     public static void mostrarStock(){
+        System.out.println("¿Que bicicleta quiere revisar el id?");
+        String stock = leer.nextLine();
+        for (Bicicleta bicicleta : bicicletas){
+            if (bicicleta.getReferencia().equals(stock)){
+                System.out.println(bicicleta.getExistencias());
+            }
+        }
 
     }
     public static void pruebas() {
         System.out.println("Cuantos alumnos?");
         int cantidad = Integer.parseInt(leer.nextLine());
-        String nia;
-        String nombre;
-        String apellidos;
-        String nacimiento;
-        String grupo;
-        int telefono;
+        String referencia;
+        String marca;
+        String modelo;
+        int kg;
+        int tamanyo;
+        boolean motor;
+        String fabricacion;
+        int precio;
         Random aleatorio = new Random();
         for (int i = 0; i < cantidad; i++) {
-            nia = "Y" + aleatorio.nextInt(100000000, 999999999);
-            nombre = aleatorio.nextBoolean() ? "Jose" : "Maria";
-            apellidos = aleatorio.nextBoolean() ? "Gomez" : "Perez";
-            nacimiento = "01-01-2000";
-            grupo = aleatorio.nextBoolean() ? "DAM" : "DAW";
-            telefono = aleatorio.nextInt(100000000, 999999999);
+            referencia = "Y" + aleatorio.nextInt(100000000, 999999999);
+            marca = aleatorio.nextBoolean() ? "Jose" : "Maria";
+            modelo = aleatorio.nextBoolean() ? "Gomez" : "Perez";
+            kg = aleatorio.nextInt(20, 50);
+            tamanyo = aleatorio.nextInt(1,20);
+            motor = aleatorio.nextBoolean();
+            fabricacion = aleatorio.nextInt(0,31) + "-" + aleatorio.nextInt(0,13) + "-" + aleatorio.nextInt(1980,2025);
+            precio = aleatorio.nextInt(0,1000000000);
 
             for (int j = 0; j < bicicletas.length; j++) {
                 if (bicicletas[j] == null) {
-                    bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor,fabricacion,precio);
-                    System.out.println(bicicletas[j].toString());
-                    break;
+                    if (bicicletas[j].equals(bicicletas[i].getReferencia())) {
+                        bicicletas[i].setExistencias(+1);
+                        break;
+                    } else {
+                        bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor, fabricacion, precio);
+                        System.out.println(bicicletas[j].toString());
+                        break;
+                    }
                 }
             }
         }
     }
 
-    public static void grupos() {
-        System.out.println("Que grupo?");
-        String clase = leer.nextLine();
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && clase.equals(alumno.getGrupo())) {
-                System.out.println(alumno);
-            }
-        }
-    }
-
-    public static void edad() {
-        System.out.println("¿Qué edad?");
-        int edadBusqueda = Integer.parseInt(leer.nextLine());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null) {
-                String fechaNacimiento = alumno.getNacimiento();
-                LocalDate birthDate = LocalDate.parse(fechaNacimiento, formatter);
-                LocalDate currentDate = LocalDate.now();
-                int edad = Period.between(birthDate, currentDate).getYears();
-                if (edad == edadBusqueda) {
-                    System.out.println(alumno);
-                }
-            }
-        }
-    }
-
-    public static void nia() {
-        System.out.println("¿Qué NIA?");
-        String niaBusqueda = leer.nextLine();
-
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && niaBusqueda.equals(alumno.getNia())) {
-                System.out.println(alumno);
+    public static void id() {
+        System.out.println("Que referencia?");
+        String id = leer.nextLine();
+        for (Bicicleta bicicleta : bicicletas) {
+            if (bicicleta != null && id.equals(bicicleta.getReferencia())) {
+                System.out.println(bicicleta);
                 return;
             }
         }
-        System.out.println("NIA no encontrado.");
+        System.out.println("referencia no encontrado.");
     }
 
-    public static void apellidos() {
-        System.out.println("¿Qué apellidos?");
-        String apellidosBusqueda = leer.nextLine();
+    public static void marca() {
+        System.out.println("¿Qué marca?");
+        String marca = leer.nextLine();
 
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && apellidosBusqueda.equals(alumno.getApellidos())) {
-                System.out.println(alumno);
+        for (Bicicleta bicicleta : bicicletas) {
+            if (bicicleta != null) {
+                if (bicicleta.getMarca().equals(marca)) {
+                    System.out.println(bicicleta);
+                    return;
+                }
             }
         }
+        System.out.println("marca no encontrado.");
+    }
+
+    public static void modelo() {
+        System.out.println("¿Qué NIA?");
+        String modelo = leer.nextLine();
+
+        for (Bicicleta bicicleta : bicicletas) {
+            if (bicicleta != null && modelo.equals(bicicleta.getModelo())) {
+                System.out.println(bicicleta);
+                return;
+            }
+        }
+        System.out.println("modelo no encontrado.");
     }
 }
