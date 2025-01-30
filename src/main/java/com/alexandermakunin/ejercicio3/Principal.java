@@ -23,19 +23,23 @@ public class Principal {
             System.out.println("------------------------------");
             System.out.println("0. Salir");
             seleccion = Integer.parseInt(leer.nextLine());
-            switch (seleccion) {
-                case 1 -> nuevoAlumno();
-                case 2 -> bajaAlumno();
-                case 3 -> consultas();
-                case 4 -> pruebas();
+            if (seleccion >= 5 || seleccion < 0){
+                System.out.println("Vuelve a intentarlo");
+            } else {
+                switch (seleccion) {
+                    case 1 -> nuevoAlumno();
+                    case 2 -> bajaAlumno();
+                    case 3 -> consultas();
+                    case 4 -> pruebas();
+                }
             }
         } while (seleccion != 0);
     }
     public static void nuevoAlumno() {
         System.out.println("Indique el NIA");
         int NIA = Integer.parseInt(leer.nextLine());
-        for (int i = 0; i < alumnos.length-1; i++) {
-            if (alumnos[i] != null && alumnos[i].getNia() == NIA) {
+        for (Alumnos alumno : alumnos) {
+            if (alumno != null && alumno.getNia() == NIA) {
                 System.out.println("El NIA ya está registrado.");
                 return;
             }
@@ -50,7 +54,7 @@ public class Principal {
         String grupo = leer.nextLine();
         System.out.println("Indique el numero de telefono");
         int telefono = Integer.parseInt(leer.nextLine());
-        for (int i = 0; i < alumnos.length-1; i++) {
+        for (int i = 0; i < alumnos.length; i++) {
             if (alumnos[i] == null) {
                 alumnos[i] = new Alumnos(NIA, nombre, apellidos, nacimiento, grupo, telefono);
                 System.out.println("Alumno registrado exitosamente.");
@@ -62,12 +66,15 @@ public class Principal {
     public static void bajaAlumno() {
         System.out.println("Indique el NIA");
         int NIA = Integer.parseInt(leer.nextLine());
-        for (int i = 0; i < alumnos.length-1; i++) {
+        for (int i = 0; i < alumnos.length; i++) {
             if (alumnos[i] != null && alumnos[i].getNia() == NIA) {
                 alumnos[i] = null;
-                break;
+                System.out.println("Encontrado y eliminado exitosamente");
+                return;
             }
         }
+        System.out.println("No se ha encontrado el alumno con ese Nia");
+        return;
     }
     public static void consultas() {
         int seleccion;
@@ -149,10 +156,10 @@ public class Principal {
 
     public static void nia() {
         System.out.println("¿Qué NIA?");
-        String niaBusqueda = leer.nextLine();
+        int niaBusqueda = Integer.parseInt(leer.nextLine());
 
         for (Alumnos alumno : alumnos) {
-            if (alumno != null && niaBusqueda.equals(alumno.getNia())) {
+            if (alumno != null && niaBusqueda == alumno.getNia()) {
                 System.out.println(alumno);
                 return;
             }

@@ -125,7 +125,7 @@ public class Principal {
         Random aleatorio = new Random();
         for (int i = 0; i < cantidad; i++) {
             referencia = "Y" + aleatorio.nextInt(100000000, 999999999);
-            marca = aleatorio.nextBoolean() ? "Jose" : "Maria";
+            marca = aleatorio.nextBoolean() ? "Bicicleta pro" : "Bicicleta mega";
             modelo = aleatorio.nextBoolean() ? "Gomez" : "Perez";
             kg = aleatorio.nextInt(20, 50);
             tamanyo = aleatorio.nextInt(1,20);
@@ -176,7 +176,7 @@ public class Principal {
     }
 
     public static void modelo() {
-        System.out.println("¿Qué NIA?");
+        System.out.println("¿Qué modelo?");
         String modelo = leer.nextLine();
 
         for (Bicicleta bicicleta : bicicletas) {

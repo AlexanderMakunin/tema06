@@ -18,7 +18,7 @@ public class Alumnos {
     }
 
     public Alumnos() {
-        this ("1234567890", "NOMBRE", "APELLIDOS", "XX-XX-XXXX", "GRUPO", 11234567);
+        this (1234567890, "NOMBRE", "APELLIDOS", "XX-XX-XXXX", "GRUPO", 11234567);
     }
 
     public int getNia() {
