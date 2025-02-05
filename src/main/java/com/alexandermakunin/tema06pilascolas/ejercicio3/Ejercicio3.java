@@ -14,7 +14,6 @@ public class Ejercicio3 {
         char algo;
         for (int i = 0; i < codigo.length(); i++) {
             algo = codigo.charAt(i);
-            System.out.println(stack.toString());
 
             switch (algo) {
                 case '{':
