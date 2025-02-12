@@ -1,12 +1,22 @@
 package com.alexandermakunin.tema06pilascolas.hospital;
 
 public class ColaConsulta {
-    private Medico medic = new Medico();
-    private Cola<Paciente> pacienteCola = new Cola<>(5);
+    private Medico medic;
+    private Cola<Paciente> pacienteCola;
 
     public ColaConsulta(Medico medic, Cola<Paciente> pacienteCola) {
         this.medic = medic;
         this.pacienteCola = pacienteCola;
+    }
+
+    public ColaConsulta(Medico medic) {
+        this.medic = medic;
+        this.pacienteCola = new Cola<>();
+    }
+
+    public ColaConsulta() {
+        this.medic = new Medico();
+        this.pacienteCola = new Cola<Paciente>();
     }
 
     public Medico getMedic() {

@@ -4,7 +4,19 @@ import java.util.Arrays;
 
 public class Hospital {
     private final int CANT_COLAS = 5;
-    private ColaConsulta[] cola = new ColaConsulta[CANT_COLAS];
+    private ColaConsulta[] cola;
+
+    public Hospital() {
+        this.cola = new ColaConsulta[CANT_COLAS];
+    }
+
+    public Hospital(int numConsulta) {
+        this.cola = new ColaConsulta[numConsulta];
+    }
+
+    public Hospital(ColaConsulta[] cola) {
+        this.cola = cola;
+    }
 
     public ColaConsulta[] getCola() {
         return cola;

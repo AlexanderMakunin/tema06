@@ -71,11 +71,10 @@ public class Cola<T> {
     /**
      * Mueve los elementos de la cola a la izquierda después de un pop()
      */
-    private void moveToLeft() {
-        for (int i = 0; i < size; i++) {
-            data[i] = data[i + 1];
+    public void moveToLeft() {
+        for (int i = 0; i < data.length-1; i++) {
+            data[i] = data[i+1];
         }
-        data[size] = null; // Limpiar referencia
     }
 
     /**

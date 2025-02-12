@@ -13,6 +13,12 @@ public class Paciente {
         this.ingreso = ingreso;
     }
 
+    public Paciente(String nombre, String SIP) {
+        this.nombre = nombre;
+        this.SIP = SIP;
+        this.ingreso = LocalDateTime.now();
+    }
+
     public Paciente() {
         this.nombre = "nombre";
         this.SIP = "SIP";
