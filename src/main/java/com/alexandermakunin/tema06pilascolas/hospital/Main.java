@@ -19,7 +19,7 @@ public class Main {
         do {
             System.out.println("=== HOSPITAL ===");
             System.out.println("1. Añadir paciente");
-            System.out.println("2. Atender siguiente paciente ===");
+            System.out.println("2. Atender siguiente paciente");
             System.out.println("3. Mostrar estado de las colas");
             System.out.println("4. Salir");
             seleccion = Integer.parseInt(leer.nextLine());
