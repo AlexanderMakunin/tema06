@@ -49,14 +49,15 @@ public class Main {
         String sip = leer.nextLine();
         Paciente paciente = new Paciente(nombre,sip);
         hospital.getCola()[numConsulta].getPacienteCola().push(paciente);
+        System.out.println(hospital.getCola()[numConsulta]);
     }
 
     private static void atenderPaciente() {
         mostrarEstado();
         System.out.println("Indique que cola");
         int seleccion;
-        seleccion = Integer.parseInt(leer.nextLine()+1);
-        if (seleccion < 1 || seleccion > numConsulta+1) {
+        seleccion = Integer.parseInt(leer.nextLine());
+        if (seleccion < 0 || seleccion > numConsulta) {
             System.err.println("cola no valida");
         } else {
             System.out.println("Paciente " + hospital.getCola()[seleccion].getPacienteCola().pop() + " atendido");
