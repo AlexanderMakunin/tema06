@@ -100,7 +100,7 @@ public class Pila<T> {
      */
     public T pop() {
         if (isEmpty()) {
-            return null; // En lugar de Double.NEGATIVE_INFINITY
+            return null;
         }
         T e = data[0];
         size--;
