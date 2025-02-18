@@ -33,10 +33,10 @@ public class Principal {
     public static void nuevaBicicleta() {
         System.out.println("Indique el identificador");
         String referencia = leer.nextLine();
-        for (int i = 0; i < bicicletas.length-1; i++) {
-            if (bicicletas[i] != null && bicicletas[i].getReferencia().equals(referencia)) {
-                System.out.println("La bicicleta ya existe");
-                bicicletas[i].setExistencias(+1);
+        for (Bicicleta bicicleta : bicicletas) {
+            if (bicicleta != null && bicicleta.getReferencia().equals(referencia)) {
+                System.out.println("La bicicleta se ha añadido a las existencias");
+                bicicleta.setExistencias(+1);
                 return;
             }
         }
@@ -68,11 +68,11 @@ public class Principal {
     public static void venderBicicleta() {
         System.out.println("Indique la referencia");
         String referencia = leer.nextLine();
-        for (int i = 0; i < bicicletas.length-1; i++) {
-            if (bicicletas[i] != null && bicicletas[i].getReferencia().equals(referencia)) {
-                if (bicicletas[i].getExistencias() >= 1){
+        for (Bicicleta bicicleta : bicicletas) {
+            if (bicicleta != null && bicicleta.getReferencia().equals(referencia)) {
+                if (bicicleta.getExistencias() >= 1) {
                     System.out.println("bicicleta " + referencia + "vendida correctamente");
-                    bicicletas[i].setExistencias(-1);
+                    bicicleta.setExistencias(-1);
                     break;
                 } else {
                     System.out.println("No quedan existencias");
@@ -112,7 +112,7 @@ public class Principal {
 
     }
     public static void pruebas() {
-        System.out.println("Cuantos alumnos?");
+        System.out.println("Cuantas bicicletas?");
         int cantidad = Integer.parseInt(leer.nextLine());
         String referencia;
         String marca;
@@ -126,7 +126,7 @@ public class Principal {
         for (int i = 0; i < cantidad; i++) {
             referencia = "Y" + aleatorio.nextInt(100000000, 999999999);
             marca = aleatorio.nextBoolean() ? "Bicicleta pro" : "Bicicleta mega";
-            modelo = aleatorio.nextBoolean() ? "Gomez" : "Perez";
+            modelo = aleatorio.nextBoolean() ? "Competitivo" : "Normal";
             kg = aleatorio.nextInt(20, 50);
             tamanyo = aleatorio.nextInt(1,20);
             motor = aleatorio.nextBoolean();
@@ -135,7 +135,7 @@ public class Principal {
 
             for (int j = 0; j < bicicletas.length; j++) {
                 if (bicicletas[j] == null) {
-                    if (bicicletas[j].equals(bicicletas[i].getReferencia())) {
+                    if (bicicletas[j] != null && bicicletas[j].getReferencia().equals(bicicletas[i].getReferencia())) {
                         bicicletas[i].setExistencias(+1);
                         break;
                     } else {
