@@ -56,9 +56,14 @@ public class Principal {
         String fabricacion = leer.nextLine();
         System.out.println("Indique el precio");
         int precio = Integer.parseInt(leer.nextLine());
+        System.out.println("Cuantas de ellas quieres poner?");
+        int stock = Integer.parseInt(leer.nextLine());
+        if (stock <= 0) {
+            stock = 1;
+        }
         for (int i = 0; i < bicicletas.length; i++) {
             if (bicicletas[i] == null) {
-                bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor,fabricacion,precio);
+                bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor,fabricacion,precio,stock);
                 System.out.println("bicicleta registrado exitosamente.");
                 return;
             }
@@ -143,7 +148,7 @@ public class Principal {
                         bicicletas[i].setExistencias(bicicletas[i].getExistencias()+1);
                     }
                 } else if (bicicletas[j] == null) {
-                    bicicletas[i] = new Bicicleta(referencia,marca,modelo,kg,tamanyo,motor,fabricacion,precio,1);
+                    bicicletas[i] = new Bicicleta(referencia,marca,modelo,kg,tamanyo,motor,fabricacion,precio);
                 }
             }
             System.out.println(bicicletas[i]);

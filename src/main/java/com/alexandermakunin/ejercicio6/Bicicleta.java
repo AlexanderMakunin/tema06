@@ -20,7 +20,7 @@ public class Bicicleta {
         this.motor = motor;
         this.fecha = fecha;
         this.precio = precio;
-        this.existencias = 0;
+        this.existencias = 1;
     }
 
     public Bicicleta(String referencia, String marca, String modelo, int kg, int tamanyo, boolean motor, String fecha, int precio, int existencias) {
