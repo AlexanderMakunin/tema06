@@ -36,7 +36,7 @@ public class Principal {
         for (Bicicleta bicicleta : bicicletas) {
             if (bicicleta != null && bicicleta.getReferencia().equals(referencia)) {
                 System.out.println("La bicicleta se ha añadido a las existencias");
-                bicicleta.setExistencias(+1);
+                bicicleta.setExistencias(bicicleta.getExistencias()+1);
                 return;
             }
         }
@@ -51,12 +51,12 @@ public class Principal {
         System.out.println("Tiene motor? (S/N)");
         char tiene = leer.nextLine().charAt(0);
         boolean motor;
-        motor = tiene == 'S';
+        motor = tiene == 'S' || tiene == 's';
         System.out.println("Indique la fecha de fabricación usando este estandar XX-XX-XXXX");
         String fabricacion = leer.nextLine();
         System.out.println("Indique el precio");
         int precio = Integer.parseInt(leer.nextLine());
-        for (int i = 0; i < bicicletas.length-1; i++) {
+        for (int i = 0; i < bicicletas.length; i++) {
             if (bicicletas[i] == null) {
                 bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor,fabricacion,precio);
                 System.out.println("bicicleta registrado exitosamente.");
@@ -72,7 +72,7 @@ public class Principal {
             if (bicicleta != null && bicicleta.getReferencia().equals(referencia)) {
                 if (bicicleta.getExistencias() >= 1) {
                     System.out.println("bicicleta " + referencia + "vendida correctamente");
-                    bicicleta.setExistencias(-1);
+                    bicicleta.setExistencias(bicicleta.getExistencias()-1);
                     break;
                 } else {
                     System.out.println("No quedan existencias");
@@ -102,13 +102,17 @@ public class Principal {
         } while (seleccion != 0);
     }
     public static void mostrarStock(){
-        System.out.println("¿Que bicicleta quiere revisar el id?");
+        System.out.println("¿Que bicicleta quiere mostrar el stock?");
         String stock = leer.nextLine();
-        for (Bicicleta bicicleta : bicicletas){
-            if (bicicleta.getReferencia().equals(stock)){
-                System.out.println(bicicleta.getExistencias());
+        for (Bicicleta bicicleta : bicicletas) {
+            if (bicicleta != null) {
+                if (bicicleta.getReferencia().equals(stock)) {
+                    System.out.println(bicicleta.getExistencias());
+                    return;
+                }
             }
         }
+        System.out.println("no se ha encontrado esa referencia");
 
     }
     public static void pruebas() {
@@ -130,21 +134,19 @@ public class Principal {
             kg = aleatorio.nextInt(20, 50);
             tamanyo = aleatorio.nextInt(1,20);
             motor = aleatorio.nextBoolean();
-            fabricacion = aleatorio.nextInt(0,31) + "-" + aleatorio.nextInt(0,13) + "-" + aleatorio.nextInt(1980,2025);
+            fabricacion = aleatorio.nextInt(0,31) + "-" + aleatorio.nextInt(0,13) + "-" + aleatorio.nextInt(1980,2025 + 1);
             precio = aleatorio.nextInt(0,1000000000);
 
-            for (int j = 0; j < bicicletas.length; j++) {
-                if (bicicletas[j] == null) {
-                    if (bicicletas[j] != null && bicicletas[j].getReferencia().equals(bicicletas[i].getReferencia())) {
-                        bicicletas[i].setExistencias(+1);
-                        break;
-                    } else {
-                        bicicletas[i] = new Bicicleta(referencia, marca, modelo, kg, tamanyo, motor, fabricacion, precio);
-                        System.out.println(bicicletas[j].toString());
-                        break;
+            for (int j = 0; j < i + 1; j++) {
+                if (bicicletas[i] != null) {
+                    if (bicicletas[j].getReferencia().equals(referencia)) {
+                        bicicletas[i].setExistencias(bicicletas[i].getExistencias()+1);
                     }
+                } else if (bicicletas[j] == null) {
+                    bicicletas[i] = new Bicicleta(referencia,marca,modelo,kg,tamanyo,motor,fabricacion,precio,1);
                 }
             }
+            System.out.println(bicicletas[i]);
         }
     }
 
@@ -168,7 +170,6 @@ public class Principal {
             if (bicicleta != null) {
                 if (bicicleta.getMarca().equals(marca)) {
                     System.out.println(bicicleta);
-                    return;
                 }
             }
         }
@@ -182,7 +183,6 @@ public class Principal {
         for (Bicicleta bicicleta : bicicletas) {
             if (bicicleta != null && modelo.equals(bicicleta.getModelo())) {
                 System.out.println(bicicleta);
-                return;
             }
         }
         System.out.println("modelo no encontrado.");
