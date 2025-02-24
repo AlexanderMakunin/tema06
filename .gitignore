@@ -40,3 +40,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/src/main/java/com/alexandermakunin/vicente/
+/src/test/java/com/alexandermakunin/vicente/
