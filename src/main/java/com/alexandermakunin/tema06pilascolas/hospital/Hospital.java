@@ -4,10 +4,6 @@ public class Hospital {
     private int CANT_COLAS = 5;
     private ColaConsulta[] cola = new ColaConsulta[CANT_COLAS];
 
-    public Hospital(ColaConsulta[] cola) {
-        this.cola = cola;
-    }
-
     public ColaConsulta[] getCola() {
         return cola;
     }
