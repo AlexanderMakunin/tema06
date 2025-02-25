@@ -15,6 +15,18 @@ public class Asignatura {
         this ("Programación", 1017, 1);
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public int getCurso() {
+        return curso;
+    }
+
     @Override
     public String toString() {
         return "Asignatura{" +
