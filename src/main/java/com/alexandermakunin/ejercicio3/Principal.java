@@ -10,6 +10,8 @@ import java.util.Scanner;
 public class Principal {
     public static Scanner leer = new Scanner(System.in);
     public static CentroEducativo centroEducativo = new CentroEducativo();
+
+
     public static void main(String[] args) {
         int seleccion;
         do {
@@ -39,6 +41,11 @@ public class Principal {
     public static void nuevoAlumno() {
         System.out.println("Indique el NIA");
         int NIA = Integer.parseInt(leer.nextLine());
+        boolean check = centroEducativo.nuevoAlumno(NIA);
+        if (check) {
+            System.out.println("El NIA ya está registrado.");
+            return;
+        }
         System.out.println("Indique el nombre");
         String nombre = leer.nextLine();
         System.out.println("Indique los apellidos");
@@ -49,7 +56,12 @@ public class Principal {
         String grupo = leer.nextLine();
         System.out.println("Indique el numero de telefono");
         int telefono = Integer.parseInt(leer.nextLine());
-        System.out.println(centroEducativo.nuevoAlumno(NIA, nombre,apellidos,nacimiento,grupo,telefono));
+        boolean check2 = centroEducativo.nuevoAlumno2(NIA, nombre,apellidos,nacimiento,grupo,telefono);
+        if (check2) {
+            System.out.println("Se ha registrado existosamente");
+        } else {
+            System.out.println("No hay espacio para mas alumnos");
+        }
     }
 
     public static void bajaAlumno() {
@@ -59,9 +71,10 @@ public class Principal {
     }
 
     public static void pruebas() {
-        centroEducativo.pruebas();
+        System.out.println("Cuantos alumnos?");
+        int cantidad = Integer.parseInt(leer.nextLine());
+        centroEducativo.pruebas(cantidad);
     }
-
 
     public static void consultas() {
         int seleccion;
@@ -109,6 +122,4 @@ public class Principal {
         String apellidosBusqueda = leer.nextLine();
         System.out.println(Arrays.toString(centroEducativo.apellidos(apellidosBusqueda)));
     }
-
-
 }
