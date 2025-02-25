@@ -1,5 +1,7 @@
 package com.alexandermakunin.ejercicio2;
 
+import java.util.Objects;
+
 public class Asignatura {
     private final String nombre;
     private final int codigo;
@@ -25,6 +27,19 @@ public class Asignatura {
 
     public int getCurso() {
         return curso;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Asignatura that = (Asignatura) o;
+        return codigo == that.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(codigo);
     }
 
     @Override

@@ -3,13 +3,13 @@ package com.alexandermakunin.ejercicio3;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Principal {
     public static Scanner leer = new Scanner(System.in);
-    public static final int MAX_ALUMNOS = 100;
-    public static Alumnos[] alumnos = new Alumnos[MAX_ALUMNOS];
+    public static CentroEducativo centroEducativo = new CentroEducativo();
     public static void main(String[] args) {
         int seleccion;
         do {
@@ -35,15 +35,10 @@ public class Principal {
             }
         } while (seleccion != 0);
     }
+
     public static void nuevoAlumno() {
         System.out.println("Indique el NIA");
         int NIA = Integer.parseInt(leer.nextLine());
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && alumno.getNia() == NIA) {
-                System.out.println("El NIA ya está registrado.");
-                return;
-            }
-        }
         System.out.println("Indique el nombre");
         String nombre = leer.nextLine();
         System.out.println("Indique los apellidos");
@@ -54,28 +49,20 @@ public class Principal {
         String grupo = leer.nextLine();
         System.out.println("Indique el numero de telefono");
         int telefono = Integer.parseInt(leer.nextLine());
-        for (int i = 0; i < alumnos.length; i++) {
-            if (alumnos[i] == null) {
-                alumnos[i] = new Alumnos(NIA, nombre, apellidos, nacimiento, grupo, telefono);
-                System.out.println("Alumno registrado exitosamente.");
-                return;
-            }
-        }
-        System.out.println("No hay espacio disponible para más alumnos.");
+        System.out.println(centroEducativo.nuevoAlumno(NIA, nombre,apellidos,nacimiento,grupo,telefono));
     }
+
     public static void bajaAlumno() {
         System.out.println("Indique el NIA");
         int NIA = Integer.parseInt(leer.nextLine());
-        for (int i = 0; i < alumnos.length; i++) {
-            if (alumnos[i] != null && alumnos[i].getNia() == NIA) {
-                alumnos[i] = null;
-                System.out.println("Encontrado y eliminado exitosamente");
-                return;
-            }
-        }
-        System.out.println("No se ha encontrado el alumno con ese Nia");
-        return;
+        System.out.println(centroEducativo.bajaAlumno(NIA));
     }
+
+    public static void pruebas() {
+        centroEducativo.pruebas();
+    }
+
+
     public static void consultas() {
         int seleccion;
         do {
@@ -98,83 +85,30 @@ public class Principal {
             }
         } while (seleccion != 0);
     }
-    public static void pruebas() {
-        System.out.println("Cuantos alumnos?");
-        int cantidad = Integer.parseInt(leer.nextLine());
-        int nia;
-        String nombre;
-        String apellidos;
-        String nacimiento;
-        String grupo;
-        int telefono;
-        Random aleatorio = new Random();
-        for (int i = 0; i < cantidad; i++) {
-            nia = aleatorio.nextInt(100000000, 999999999);
-            nombre = aleatorio.nextBoolean() ? "Jose" : "Maria";
-            apellidos = aleatorio.nextBoolean() ? "Gomez" : "Perez";
-            nacimiento = "01-01-2000";
-            grupo = aleatorio.nextBoolean() ? "DAM" : "DAW";
-            telefono = aleatorio.nextInt(100000000, 999999999);
-
-            for (int j = 0; j < alumnos.length; j++) {
-                if (alumnos[j] == null) {
-                    alumnos[j] = new Alumnos(nia, nombre, apellidos, nacimiento, grupo, telefono);
-                    System.out.println(alumnos[j].toString());
-                    break;
-                }
-            }
-        }
-    }
 
     public static void grupos() {
         System.out.println("Que grupo?");
         String clase = leer.nextLine();
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && clase.equals(alumno.getGrupo())) {
-                System.out.println(alumno);
-            }
-        }
+        System.out.println(Arrays.toString(centroEducativo.grupos(clase)));
     }
 
     public static void edad() {
         System.out.println("¿Qué edad?");
         int edadBusqueda = Integer.parseInt(leer.nextLine());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null) {
-                String fechaNacimiento = alumno.getNacimiento();
-                LocalDate birthDate = LocalDate.parse(fechaNacimiento, formatter);
-                LocalDate currentDate = LocalDate.now();
-                int edad = Period.between(birthDate, currentDate).getYears();
-                if (edad == edadBusqueda) {
-                    System.out.println(alumno);
-                }
-            }
-        }
+        System.out.println(Arrays.toString(centroEducativo.edad(edadBusqueda)));
     }
 
     public static void nia() {
         System.out.println("¿Qué NIA?");
         int niaBusqueda = Integer.parseInt(leer.nextLine());
-
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && niaBusqueda == alumno.getNia()) {
-                System.out.println(alumno);
-                return;
-            }
-        }
-        System.out.println("NIA no encontrado.");
+        System.out.println(centroEducativo.nia(niaBusqueda));
     }
 
     public static void apellidos() {
         System.out.println("¿Qué apellidos?");
         String apellidosBusqueda = leer.nextLine();
-
-        for (Alumnos alumno : alumnos) {
-            if (alumno != null && apellidosBusqueda.equals(alumno.getApellidos())) {
-                System.out.println(alumno);
-            }
-        }
+        System.out.println(Arrays.toString(centroEducativo.apellidos(apellidosBusqueda)));
     }
+
+
 }
