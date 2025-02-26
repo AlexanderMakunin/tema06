@@ -11,6 +11,8 @@ import java.util.Random;
 public class Hospital {
     final int CANT_PACIENTES = 40;
     Pacientes[] pacientes = new Pacientes[CANT_PACIENTES];
+    final int DATOS_VITALES = 4;
+    float[] preRev = new float[DATOS_VITALES];
 
     public boolean nuevoPaciente(int SIP) {
         for (Pacientes paciente : pacientes) {

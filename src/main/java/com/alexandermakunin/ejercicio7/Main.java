@@ -46,14 +46,19 @@ public class Main {
         int edad = Integer.parseInt(leer.nextLine());
         System.out.println("Indique la sintologia");
         String sintomatologia = leer.nextLine();
-        hospital.nuevoPaciente2(sip,nombre,sex,edad,sintomatologia);
-
+        check = hospital.nuevoPaciente2(sip,nombre,sex,edad,sintomatologia);
+        if (check) {
+            System.out.println("Paciente añadido exitosamente");
+        } else {
+            System.out.println("No se pudo realizarlo");
+        }
     }
     public static void atenderPaciente() {
         System.out.println("Indique el SIP");
         int sip = Integer.parseInt(leer.nextLine());
         Pacientes paciente = hospital.buscarPaciente(sip);
         if (paciente != null) {
+
         }
     }
     public static void consultas() {
