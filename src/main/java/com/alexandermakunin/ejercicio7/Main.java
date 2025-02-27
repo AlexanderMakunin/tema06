@@ -14,19 +14,18 @@ public class Main {
         if (test) {
             for (int i = 0; i < hospital.CANT_PACIENTES; i++) {
                 Random rand = new Random();
-
                 int sip = rand.nextInt(0,1000000000);
                 String nombre = generarNombreFalso();
                 String sexo = rand.nextBoolean() ? "M" : "V";
                 Pacientes.sexo sex = Pacientes.sexo.valueOf(sexo);
                 int edad = rand.nextInt(100) + 1;
                 String sintomatologia = generarSintomasFalsos();
-                if (!hospital.nuevoPaciente(sip)) {
+                if (hospital.buscarPaciente(sip) == null) {
                     hospital.nuevoPaciente(sip, nombre, sex, edad, sintomatologia);
                 }
             }
+            System.out.println(hospital);
         }
-        System.out.println(hospital);
         menu();
     }
 
@@ -70,9 +69,10 @@ public class Main {
     public static void nuevoPaciente() {
         System.out.println("Indique el sip");
         int sip = Integer.parseInt(leer.nextLine());
-        boolean check = hospital.nuevoPaciente(sip);
-        if (check) {
-            System.out.println("Ese paciente ya esta siendo atendido");
+        Pacientes paciente = hospital.buscarPaciente(sip);
+        if (paciente != null) {
+            System.out.println("Ese paciente ya existe");
+            System.out.println(paciente);
             return;
         }
         System.out.println("Indique el nombre");
@@ -84,7 +84,7 @@ public class Main {
         int edad = Integer.parseInt(leer.nextLine());
         System.out.println("Indique la sintologia");
         String sintomatologia = leer.nextLine();
-        check = hospital.nuevoPaciente(sip, nombre, sex, edad, sintomatologia);
+        boolean check = hospital.nuevoPaciente(sip, nombre, sex, edad, sintomatologia);
         if (check) {
             System.out.println("Paciente añadido exitosamente");
         } else {
@@ -97,7 +97,7 @@ public class Main {
         int sip = Integer.parseInt(leer.nextLine());
         Pacientes paciente = hospital.buscarPaciente(sip);
         if (paciente != null) {
-            if (hospital.verificarAlta(paciente)) {
+            if (!hospital.buscarPaciente(hospital.buscarPaciente(sip)).isAlta_medica()) {
                 System.out.println(paciente);
                 System.out.println("Indique su temperatura");
                 float temp = Float.parseFloat(leer.nextLine());
@@ -157,20 +157,26 @@ public class Main {
         String fechaFin = leer.nextLine();
         LocalDateTime fechaInicioTime;
         LocalDateTime fechaFinTime = null;
-        if (fechaInicio.length() == 16) {
-            fechaInicioTime = LocalDateTime.parse(fechaInicio, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+        if (fechaInicio.length() == 19) {
+            fechaInicioTime = LocalDateTime.parse(fechaInicio, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         } else {
-            fechaInicioTime = LocalDateTime.parse(fechaInicio + " 00:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            fechaInicioTime = LocalDateTime.parse(fechaInicio + " 00:00:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         }
         if (fechaFin.length() == 9 && fechaFin.charAt(2) == '-' && fechaFin.charAt(5) == '-') {
-            fechaFinTime = LocalDateTime.parse(fechaFin + " 00:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            fechaFinTime = LocalDateTime.parse(fechaFin + " 00:00:00", DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        }
+        if (fechaInicioTime.isAfter(LocalDateTime.now())) {
+            System.out.println("La fecha de inicio no es valida");
+            return;
+        }
+        if (fechaFinTime != null && fechaFinTime.isBefore(fechaInicioTime)) {
+            System.out.println("fecha fin es menor que la fecha de inicio, se usara la fecha actual");
+            fechaFinTime = null;
         }
 
-        System.out.println(fechaInicioTime);
-
-        Pacientes[] paciente = hospital.buscarPaciente(fechaInicioTime, fechaFinTime);
-        for (Pacientes pacientes : paciente) {
-            System.out.println(pacientes);
+        AtencionPaciente[] atencionPacientes = hospital.buscarPaciente(fechaInicioTime, fechaFinTime);
+        for (AtencionPaciente atencionPaciente : atencionPacientes) {
+            System.out.println(atencionPaciente);
         }
     }
 
@@ -189,19 +195,20 @@ public class Main {
     }
 
     public static void consultaHistorial() {
-        Pacientes[] pacientes = hospital.pacientesAtendidos();
-        for (Pacientes paciente : pacientes) {
-            System.out.println(paciente);
+        AtencionPaciente[] atencionPacientes = hospital.pacientesAtendidos();
+        for (AtencionPaciente atencionPaciente : atencionPacientes) {
+            System.out.println(atencionPaciente);
         }
     }
 
     public static void altaMedica() {
         System.out.println("Indique el SIP");
-        Pacientes paciente = hospital.buscarPaciente(Integer.parseInt(leer.nextLine()));
+        AtencionPaciente atencionPaciente = hospital.buscarPaciente(hospital.buscarPaciente(Integer.parseInt(leer.nextLine())));
         System.out.println("Indique el motivo");
         String motivo = leer.nextLine();
-        if (hospital.darAlta(paciente,motivo)) {
+        if (hospital.darAlta(atencionPaciente,motivo)) {
             System.out.println("Dado de alta exitosamente");
+            atencionPaciente.setHORA_ALTA_MEDICA(LocalDateTime.now());
         } else {
             System.out.println("Ha habido un error");
         }

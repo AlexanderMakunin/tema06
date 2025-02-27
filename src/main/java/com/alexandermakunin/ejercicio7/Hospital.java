@@ -1,21 +1,29 @@
 package com.alexandermakunin.ejercicio7;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 
 public class Hospital {
     final int CANT_PACIENTES = 40;
     Pacientes[] pacientes = new Pacientes[CANT_PACIENTES];
+    AtencionPaciente[] atencionPacientes = new AtencionPaciente[CANT_PACIENTES * 30];
 
-
-    public boolean nuevoPaciente(int SIP) {
+    public Pacientes buscarPaciente(int SIP) {
         for (Pacientes paciente : pacientes) {
             if (paciente != null && paciente.getSIP() == SIP) {
-                return true;
+                return paciente;
             }
         }
-        return false;
+        return null;
+    }
+
+    public AtencionPaciente buscarPaciente(Pacientes pacientes) {
+        for (AtencionPaciente atencionPaciente : atencionPacientes) {
+            if (atencionPaciente.getPacientes().getSIP() == pacientes.getSIP()) {
+                return atencionPaciente;
+            }
+        }
+        return null;
     }
 
     public boolean nuevoPaciente(int SIP, String NOMBRE, Pacientes.sexo SEX, int EDAD, String SINTOMATOLOGIA) {
@@ -28,62 +36,52 @@ public class Hospital {
         return false;
     }
 
-    public Pacientes buscarPaciente(int SIP) {
-        for (Pacientes paciente : pacientes) {
-            if (paciente.getSIP() == SIP) {
-                return paciente;
-            }
-        }
-        return null;
-    }
-
-    public Pacientes[] buscarPaciente(LocalDateTime fechaInicioTime, LocalDateTime fechaFinTime) {
+    public AtencionPaciente[] buscarPaciente(LocalDateTime fechaInicioTime, LocalDateTime fechaFinTime) {
         int count = 0;
 
-        for (Pacientes paciente : pacientes) {
-            long diferencia;
-
-            if (paciente.isAtendido()) {
+        for (AtencionPaciente atencionPaciente : atencionPacientes) {
+            if (atencionPaciente.isAtendido()) {
                 if (fechaFinTime == null) {
-                    diferencia = ChronoUnit.SECONDS.between(fechaInicioTime, paciente.getLLEGADA());
+                    if (atencionPaciente.getPacientes().getLLEGADA().isAfter(fechaInicioTime) && atencionPaciente.getPacientes().getLLEGADA().isBefore(LocalDateTime.now())) {
+                        count++;
+                    }
                 } else {
-                    diferencia = ChronoUnit.SECONDS.between(paciente.getLLEGADA(), fechaFinTime);
-                }
-
-                // Si el paciente fue atendido en el rango de fechas, aumentar el contador
-                if (diferencia >= 0) {
-                    count++;
+                    if (atencionPaciente.getPacientes().getLLEGADA().isAfter(fechaInicioTime) && atencionPaciente.getPacientes().getLLEGADA().isBefore(fechaFinTime)) {
+                        count++;
+                    }
                 }
             }
         }
 
-        Pacientes[] pacientesHora = new Pacientes[count];
+        AtencionPaciente[] pacientesHora = new AtencionPaciente[count];
         int index = 0;
 
-        for (int i = 0; i < pacientes.length; i++) {
-            long diferencia;
-
-            if (pacientes[i].isAtendido()) {
+        for (int i = 0; i < atencionPacientes.length; i++) {
+            if (atencionPacientes[i].isAtendido()) {
                 if (fechaFinTime == null) {
-                    diferencia = ChronoUnit.SECONDS.between(fechaInicioTime, pacientes[i].getLLEGADA());
+                    if (pacientes[i].getLLEGADA().isAfter(fechaInicioTime) && pacientes[i].getLLEGADA().isBefore(LocalDateTime.now())) {
+                        pacientesHora[index] = atencionPacientes[i];
+                        index++;
+                    }
                 } else {
-                    diferencia = ChronoUnit.SECONDS.between(pacientes[i].getLLEGADA(), fechaFinTime);
-                }
-                if (diferencia >= 0) {
-                    pacientesHora[index++] = pacientes[i];
+                    if (pacientes[i].getLLEGADA().isAfter(fechaInicioTime) && pacientes[i].getLLEGADA().isBefore(fechaFinTime)) {
+                        pacientesHora[index] = atencionPacientes[i];
+                        index++;
+                    }
                 }
             }
         }
-
         return pacientesHora;
     }
 
-
-
     public boolean atenderPaciente(Pacientes paciente, float temp, int ppm, int tenSis, int tenDias) {
         if (paciente != null) {
-            paciente.vitales(temp,ppm,tenSis,tenDias);
-            paciente.setAtendido(true);
+            for (int i = 0; i < atencionPacientes.length; i++) {
+                if ( atencionPacientes[i] == null) {
+                    AtencionPaciente atencionPaciente = new AtencionPaciente(paciente,AtencionPaciente.vitales(temp,ppm,tenSis,tenDias));
+                    atencionPacientes[i] = atencionPaciente;
+                }
+            }
             return true;
         } else {
             return false;
@@ -98,13 +96,13 @@ public class Hospital {
         int totalHombres = 0;
         int totalMujeres = 0;
         int totalPacientes = 0;
-        for (Pacientes paciente : pacientes) {
+        for (AtencionPaciente atencionPaciente : atencionPacientes) {
             totalPacientes += 1;
-            totalTemp += paciente.getPreRev()[0];
-            totalPpm += (int) paciente.getPreRev()[1];
-            totalTenArt += (int) paciente.getPreRev()[2];
-            totalEdad += paciente.getEDAD();
-            if (paciente.getSEX() == Pacientes.sexo.M) {
+            totalTemp += atencionPaciente.getPreRev()[0];
+            totalPpm += (int) atencionPaciente.getPreRev()[1];
+            totalTenArt += (int) atencionPaciente.getPreRev()[2];
+            totalEdad += atencionPaciente.getPacientes().getEDAD();
+            if (atencionPaciente.getPacientes().getSEX() == Pacientes.sexo.M) {
                 totalHombres += 1;
             } else {
                 totalMujeres += 1;
@@ -123,29 +121,15 @@ public class Hospital {
         return new int[]{mediaTemp, mediaPpm, mediaTenArt, mediaEdad, mediaHombres, mediaMujeres};
     }
 
-    public Pacientes[] pacientesAtendidos() {
-        int count = 0;
-        for (Pacientes paciente : pacientes) {
-            if (paciente.isAtendido()) {
-                count += 1;
-            }
-        }
-        Pacientes[] pacientesAtendidos = new Pacientes[count];
-        for (int i = 0; i < pacientes.length; i++) {
-            if (pacientes[i].isAtendido()) {
-                pacientesAtendidos[i] = pacientes[i];
-            }
-        }
-        return pacientesAtendidos;
+    public AtencionPaciente[] pacientesAtendidos() {
+        return atencionPacientes;
     }
 
-    public boolean verificarAlta(Pacientes paciente) {
-        return paciente.getHORA_ALTA_MEDICA() == null;
-    }
-
-    public boolean darAlta(Pacientes paciente, String motivo) {
-        paciente.setMotivo(motivo);
-        return paciente.isAlta_medica();
+    public boolean darAlta(AtencionPaciente atencionPaciente, String motivo) {
+        atencionPaciente.setMotivo(motivo);
+        atencionPaciente.setAlta_medica(true);
+        atencionPaciente.setAtendido(false);
+        return atencionPaciente.isAlta_medica();
     }
 
     @Override
