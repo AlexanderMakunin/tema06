@@ -1,7 +1,7 @@
 package com.alexandermakunin.ejercicio7;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Pacientes {
@@ -14,6 +14,12 @@ public class Pacientes {
     private final int EDAD;
     private final LocalDateTime LLEGADA = LocalDateTime.now();
     private final String SINTOMATOLOGIA;
+    private LocalDateTime HORA_ALTA_MEDICA;
+    private boolean alta_medica = false;
+    private boolean atendido = false;
+    private String motivo;
+    private final int NUM_CONSTANTES_VITALES = 4;
+    private final float[] preRev = new float[NUM_CONSTANTES_VITALES];
 
     public Pacientes(int SIP, String NOMBRE, sexo SEX, int EDAD, String SINTOMATOLOGIA) {
         this.SIP = SIP;
@@ -47,6 +53,41 @@ public class Pacientes {
         return SINTOMATOLOGIA;
     }
 
+    public float[] getPreRev() {
+        return preRev;
+    }
+
+    public LocalDateTime getHORA_ALTA_MEDICA() {
+        return HORA_ALTA_MEDICA;
+    }
+
+    public boolean isAlta_medica() {
+        return alta_medica;
+    }
+
+    public boolean isAtendido() {
+        return atendido;
+    }
+
+    public void setAtendido(boolean ATENDIDO) {
+        this.atendido = ATENDIDO;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
+    public void vitales(float temp, int ppm, int tenSis, int tenDias) {
+        this.preRev[0] = temp;
+        this.preRev[1] = ppm;
+        this.preRev[2] = tenSis;
+        this.preRev[3] = tenDias;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,13 +103,18 @@ public class Pacientes {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedLlegada = LLEGADA.format(formatter);  // Formateamos la fecha para mostrarla sin la 'T'
+
         return "Pacientes{" +
                 "SIP=" + SIP +
                 ", NOMBRE='" + NOMBRE + '\'' +
                 ", SEX=" + SEX +
                 ", EDAD=" + EDAD +
-                ", LLEGADA=" + LLEGADA +
-                ", SINTOMOLOGIA='" + SINTOMATOLOGIA + '\'' +
+                ", LLEGADA=" + formattedLlegada +
+                ", SINTOMATOLOGIA='" + SINTOMATOLOGIA + '\'' +
+                ", HORA_ALTA_MEDICA=" + HORA_ALTA_MEDICA +
+                ", motivo='" + motivo + '\'' +
                 '}';
     }
 }
